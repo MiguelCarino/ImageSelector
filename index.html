@@ -11,13 +11,17 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #000000;
+            flex-direction: column;
         }
-
-        .container {
+        .header-text {
+            color: aliceblue;
+        }
+        .imageContainer {
             display: flex;
             flex-direction: row;
             align-items: center;
+            margin-bottom: 20px;
         }
 
         .button-column {
@@ -65,10 +69,23 @@
         h1 {
             margin: 10px 0;
         }
+        
+        .textContainer {
+            margin-top: 20px; /* Adjust as needed */
+        }
+        
+        .link-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
-<body>
-<div class="container">
+<body class="header-text">
+<div class="imageContainer">
     <div class="button-column">
         <h1>Clan</h1>
         <div class="button-row">
@@ -95,17 +112,30 @@
         <div class="button-row">
             <button class="btn" data-side="bottom" data-index="1">TASKBAR</button>
             <button class="btn" data-side="bottom" data-index="2">DOCK</button>
-            <button class="btn" data-side="bottom" data-index="3">CLASSIC</button>
-            <button class="btn" data-side="bottom" data-index="4">TILING</button>
+            <button class="btn" data-side="bottom" data-index="3">TILING</button>
+            <button class="btn" data-side="bottom" data-index="4">CLI</button>
         </div>
     </div>
     <div class="central-square" id="centralSquare">
         <img src="raw/1-1-1-1.webp" alt="Image 1" id="centralImage">
     </div>
 </div>
+<div class="textContainer">
+    <p id="permutationText">Text based on permutation</p>
+</div>
+<a id="linkButton" class="link-button" href="#" target="_blank">Download</a>
 <script>
     const buttons = document.querySelectorAll('.btn');
     const centralImage = document.getElementById('centralImage');
+    const permutationTextElement = document.getElementById('permutationText');
+    const linkButton = document.getElementById('linkButton');
+    
+    const permutationContent = {
+        '1-1-1-1': ['Tass1', 'https://example.com/link1'],
+        '1-2-3-4': ['Tad', 'https://example.com/link2'],
+        '4-4-4-4': ['BSD', 'https://example.com/link3'],
+        // Add more permutations as needed
+    };
     
     let selectedButtons = {
         top: 1,
@@ -130,18 +160,22 @@
             // Add active class to the clicked button
             this.classList.add('active');
 
-            updateImage();
+            updateContent();
         });
     });
     
-    function updateImage() {
+    function updateContent() {
         const key = `${selectedButtons.top}-${selectedButtons.left}-${selectedButtons.right}-${selectedButtons.bottom}`;
         const newImage = `img/${key}.webp`;
         centralImage.src = newImage;
+
+        // Update text and link based on the permutation
+        const content = permutationContent[key] || ['Default text for unmatched permutation', '#'];
+        permutationTextElement.textContent = content[0];
+        linkButton.href = content[1];
     }
     
-    // Initialize with the first set of selected buttons
-    updateImage();
+    updateContent(); // Initial call to set the image, text, and link based on the default selection
 </script>
 </body>
 </html>
